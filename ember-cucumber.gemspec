@@ -8,9 +8,9 @@ Gem::Specification.new do |spec|
   spec.version       = Ember::Cucumber::VERSION
   spec.authors       = ["Alaina Hardie"]
   spec.email         = ["alaina@precisionnutrition.com"]
-  spec.description   = %q{TODO: Write a gem description}
-  spec.summary       = %q{TODO: Write a gem summary}
-  spec.homepage      = ""
+  spec.description   = 'Add steps to support testing Ember apps with Cucumber'
+  spec.summary       = 'Add steps to support testing Ember apps with Cucumber'
+  spec.homepage      = "https://github.com/PrecisionNutrition/ember-cucumber"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files`.split($/)
@@ -20,4 +20,7 @@ Gem::Specification.new do |spec|
 
   spec.add_development_dependency "bundler", "~> 1.3"
   spec.add_development_dependency "rake"
+
+  spec.add_dependency "cucumber", "~> 1.3.10"
+  spec.add_dependency "spreewald", "~> 0.8.6"
 end
