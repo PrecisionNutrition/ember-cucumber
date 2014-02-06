@@ -3,12 +3,15 @@ require "ember/cucumber/version"
 module Ember
   module Cucumber
     def wait_for_html_element_on_page
-      2000.times do
-        if page
-          find :css, "html"
-        end
-        sleep 0.01
+      patiently do
+        find 'html'
       end
+      # 2000.times do
+      #   if page
+      #     find :css, "html"
+      #   end
+      #   sleep 0.01
+      # end
     end
 
     def wait_for_page_to_load
@@ -56,12 +59,12 @@ module Ember
     def wait_for_ember_run_loop_to_complete
       # These first two blocks are from the BrowserHelpers module. We need to ensure that the page is
       # loaded before we start running finds on CSS
-      patiently do
-        wait_for_page_to_load
-      end
-      patiently do
-        wait_for_html_element_on_page
-      end
+      # patiently do
+      #   wait_for_page_to_load
+      # end
+      # patiently do
+      #   wait_for_html_element_on_page
+      # end
 
       # At this point the page should be loaded, so if we don't see .ember-application,
       # we assume it's not an Ember app and this method can just return because there's nothing
@@ -69,13 +72,16 @@ module Ember
       # that aren't Ember-fied (e.g. Doorkeeper's pages). We don't want to fail; we just want to fall
       # through.
       patiently do
+        puts "waiting"
         return unless page.has_css? '.ember-application'
       end
 
       # And here is where the magic happens. We check that Ember is instantiated, that there are no
       # scheduled timers, and that there is no current run loop. This is the way that Ember does it
       # internally, so hey, if it's good enough for production, it's good enough for testing.
+      blah = 0
       2000.times do #this means up to 20 seconds
+        puts "shit #{blah += 1}"
         return if page.evaluate_script "'undefined' == typeof window.jQuery"
         return if page.evaluate_script "jQuery('body').hasClass('ajax-quiet') && jQuery('body').hasClass('application-ready') && (typeof Ember === 'object') && !Ember.run.hasScheduledTimers() && !Ember.run.currentRunLoop"
         sleep 0.01
