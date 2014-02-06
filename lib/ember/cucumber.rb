@@ -77,7 +77,7 @@ module Ember
     # internally, so hey, if it's good enough for production, it's good enough for testing.
     2000.times do #this means up to 20 seconds
       return if page.evaluate_script "'undefined' == typeof window.jQuery"
-      return if page.evaluate_script "jQuery('body').hasClass('ajax-quiet') && jQuery('body').hasClass('application-ready') && (typeof Ember === 'object') && !Ember.run.hasScheduledTimers() && !Ember.run.currentRunLoop"
+      return if page.evaluate_script "jQuery.active === 0 && jQuery('body').hasClass('application-ready') && (typeof Ember === 'object') && !Ember.run.hasScheduledTimers() && !Ember.run.currentRunLoop"
       sleep 0.01
     end
   end
